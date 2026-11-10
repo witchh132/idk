@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Selamat Ulang Tahun!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff1e8; --sky1:#ffd6c4; --sky2:#cdb9f2; --ink:#2a1850; --muted:#5b4680;
+  --card:#fffaf5; --line:#e4d3ee; --accent:#c2376b; --glow:#ffb347;
+  --cake1:#f58aa3; --cake2:#ffd1dc; --plate:#e9dcf7; --wax:#7a5cd6;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif; --sans:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#140d2e; --sky1:#1b1340; --sky2:#43236b; --ink:#fff3e0; --muted:#cbb8e8;
+    --card:#241a4a; --line:#3e3070; --accent:#ff8aa5; --glow:#ffb347;
+    --cake1:#f58aa3; --cake2:#ffd1dc; --plate:#cdbbea; --wax:#9a82ee; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#140d2e; --sky1:#1b1340; --sky2:#43236b; --ink:#fff3e0; --muted:#cbb8e8;
+  --card:#241a4a; --line:#3e3070; --accent:#ff8aa5; --glow:#ffb347;
+  --plate:#cdbbea; --wax:#9a82ee; color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{position:relative;margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+main{max-width:720px;margin:0 auto;padding:28px 18px 48px;text-align:center}
+.namebox{display:inline-flex;gap:10px;align-items:center;font-size:.95rem;color:var(--muted)}
+.namebox input{font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;width:170px;text-align:center}
+.namebox input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,8vw,3.6rem);line-height:1.1;margin:8px 0 8px;letter-spacing:-.01em;text-wrap:balance}
+.sub{margin:0 auto;max-width:34ch;color:var(--muted);min-height:3em}
+.stage{position:relative;margin:22px auto 0;height:min(80vh,620px);min-height:470px;border-radius:28px;overflow:hidden;
+  background:linear-gradient(180deg,var(--sky1),var(--sky2));border:1.5px solid var(--line)}
+.stars{position:absolute;inset:0;background-image:
+  radial-gradient(1.5px 1.5px at 12% 18%,#fff 98%,transparent),radial-gradient(1.5px 1.5px at 78% 12%,#fff 98%,transparent),
+  radial-gradient(2px 2px at 40% 30%,#fff 98%,transparent),radial-gradient(1.5px 1.5px at 90% 40%,#fff 98%,transparent),
+  radial-gradient(1.5px 1.5px at 22% 52%,#fff 98%,transparent),radial-gradient(2px 2px at 64% 46%,#fff 98%,transparent);opacity:.7}
+.cake{position:absolute;z-index:1;left:50%;bottom:10px;width:min(320px,78%);transform:translateX(-50%);cursor:pointer;background:none;border:0;padding:0}
+.cake svg{display:block;width:100%;height:auto;overflow:visible}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick .9s ease-in-out infinite alternate;transition:opacity .35s,transform .35s}
+.flame:nth-of-type(2n){animation-duration:.7s}
+.glow{transition:opacity .4s}
+.listening .flame{animation:none;transition:opacity .1s;opacity:calc(1 - var(--p,0)*.5)}
+.listening .glow{opacity:calc(.25*(1 - var(--p,0)*.6))}
+.out .flame{animation:none;opacity:0;transform:scale(.2)}
+.out .glow{opacity:0}
+.smoke{opacity:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round}
+.out .smoke{animation:smoke 2.2s ease-out}
+@keyframes flick{from{transform:scale(1,1) rotate(-3deg)}to{transform:scale(.88,1.1) rotate(3deg)}}
+@keyframes smoke{0%{opacity:.7;transform:translateY(0)}100%{opacity:0;transform:translateY(-34px)}}
+#lanterns{position:absolute;inset:0;z-index:2;pointer-events:none}
+.lantern{pointer-events:auto;position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,0);animation:rise 2.6s cubic-bezier(.2,.7,.2,1) var(--d) both}
+.lantern button{display:block;width:58px;border:0;background:none;padding:0;cursor:pointer;animation:bob 4s ease-in-out var(--d) infinite alternate}
+.lantern svg{width:100%;height:auto;display:block;filter:drop-shadow(0 0 14px rgba(255,179,71,.85));transition:filter .3s,opacity .3s}
+.lantern.seen svg{opacity:.55;filter:drop-shadow(0 0 4px rgba(255,179,71,.4))}
+.lantern button:hover svg{filter:drop-shadow(0 0 22px rgba(255,200,100,1))}
+@keyframes rise{from{opacity:0;transform:translate(-50%,420px)}20%{opacity:1}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes bob{from{transform:translateY(-7px) rotate(-3deg)}to{transform:translateY(9px) rotate(3deg)}}
+.msg{margin:18px auto 0;max-width:460px;min-height:92px;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:18px 22px;
+  font-family:var(--serif);font-style:italic;font-size:1.2rem;line-height:1.45;display:flex;align-items:center;justify-content:center}
+.msg.pop{animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.94);opacity:.3}to{transform:scale(1);opacity:1}}
+.btn{margin-top:20px;font:600 1rem var(--sans);color:#fff;background:var(--accent);border:0;border-radius:999px;padding:13px 28px;cursor:pointer;transition:transform .15s}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#2a1850}}
+:root[data-theme="dark"] .btn{color:#2a1850}
+.btn:hover{transform:translateY(-2px)}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px}
+.actions .btn{margin:0}
+.btn.alt,:root:not([data-theme="light"]) .btn.alt,:root[data-theme="dark"] .btn.alt{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.micnote{min-height:1.5em;margin:12px auto 0;max-width:40ch;font-size:.9rem;color:var(--muted)}
+.musicbar{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;z-index:15;display:flex;gap:8px}
+.musicbtn{font:600 .85rem var(--sans);color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer}
+canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
+#bf{position:absolute;inset:0;pointer-events:none;z-index:3;overflow:hidden}
+#wind{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;color:var(--ink)}
+.wd{position:absolute;left:0;top:0;opacity:0;will-change:transform}
+.wd svg{display:block;width:100%;height:auto;overflow:visible}
+.wd path{fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round}
+.bf{position:absolute;left:0;top:0;will-change:transform;opacity:.9}
+.bf svg{display:block;width:100%;height:auto;overflow:visible}
+.wl,.wr{transform-box:fill-box;animation:flap .22s ease-in-out infinite alternate}
+.wl{transform-origin:100% 50%}.wr{transform-origin:0% 50%}
+@keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.2)}}
+@media (prefers-reduced-motion:reduce){.wl,.wr{animation:none!important}}
+.modal{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(20,13,46,.55);backdrop-filter:blur(4px);animation:fade .25s ease-out}
+.modal[hidden]{display:none}
+.mcard{max-width:400px;width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:24px;padding:30px 26px 26px;text-align:center;box-shadow:0 0 60px rgba(255,179,71,.35);animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+.mcard .mi{font-size:2.4rem;line-height:1}
+.mcard p{font-family:var(--serif);font-style:italic;font-size:1.35rem;line-height:1.45;margin:14px 0 0}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  .flame,.lantern button,.lantern{animation:none!important}.out .smoke{animation:none}
+}
+</style>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="musicbar">
+  <!-- Atribut autoplay ditambahkan di sini -->
+  <audio id="bgm" src="bg.mp3" loop preload="auto" autoplay></audio>
+  <button class="musicbtn" id="music" aria-pressed="true">🎵 Musik nyala</button>
+</div>
+<canvas id="wind" aria-hidden="true"></canvas>
+<div id="bf" aria-hidden="true"></div>
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mtext">
+  <div class="mcard"><div class="mi" aria-hidden="true">🏮</div><p id="mtext"></p><button class="btn" id="mclose">Tutup</button></div>
+</div>
+<main>
+  <h1 id="title">Selamat ulang tahun!</h1>
+  <p class="sub" id="sub">Buat permintaan dulu dalam hati, lalu tiup lilinnya.</p>
+
+  <section class="stage" id="stage" aria-label="Kue ulang tahun">
+    <div class="stars"></div>
+    <div id="lanterns"></div>
+    <button class="cake" id="cake" aria-label="Tiup lilin">
+      <svg viewBox="0 0 300 250" id="cakesvg">
+        <ellipse cx="150" cy="232" rx="140" ry="14" fill="var(--plate)"/>
+        <rect x="42" y="150" width="216" height="76" rx="16" fill="var(--cake1)"/>
+        <path d="M42 166q0-16 16-16h184q16 0 16 16v8q-11 0-11 11t-12 11-12-11-12 11-12-11-12 11-12-11-12 11-12-11-12 11-12-11-12 11-12-11-12 11-12-11-12 11-12-11-12 11q-11 0-11-11z" fill="var(--cake2)"/>
+        <rect x="76" y="100" width="148" height="56" rx="14" fill="var(--cake2)"/>
+        <path d="M76 114q0-14 14-14h120q14 0 14 14v6q-9 0-9 9t-10 9-10-9-10 9-10-9-10 9-10-9-10 9-10-9-10 9-10-9-10 9q-9 0-9-9z" fill="var(--cake1)"/>
+        <circle cx="100" cy="196" r="6" fill="#fff" opacity=".8"/><circle cx="150" cy="204" r="6" fill="#fff" opacity=".8"/><circle cx="200" cy="196" r="6" fill="#fff" opacity=".8"/>
+        <g id="candles"></g>
+      </svg>
+    </button>
+  </section>
+
+  <div class="msg" id="msg" aria-live="polite">Lilinnya masih menyala…</div>
+  <div class="actions">
+    <button class="btn" id="blow">Tiup lilin</button>
+    <button class="btn alt" id="mic">🎤 Tiup lewat mikrofon</button>
+  </div>
+  <p class="micnote" id="micnote" aria-live="polite"></p>
+</main>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  var $=function(id){return document.getElementById(id)};
+  var lit=true, name="";
+  var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var wishes=[
+    "Semoga setiap hari barumu dipenuhi hal yang dapat membuatmu tersenyum.",
+    "Semoga sehat selalu, dan cita-citamu satu per satu terwujud.",
+    "Terima kasih karena sudah membuat orang di sekitarmu merasa hangat.",
+    "Semoga panjang umur dan selalu diberkati.",
+    "Sering-sering mabar roblox ya wkwkkwk"
+  ];
+
+  /* lilin */
+  var candles=$("candles"), xs=[98,124,150,176,202], cols=["#ff7a90","#7a9cff","#ffd24a","#5fd1a8","#c88bff"];
+  xs.forEach(function(x,i){
+    var g=document.createElementNS(NS,"g");
+    g.innerHTML='<rect x="'+(x-4)+'" y="70" width="8" height="32" rx="3" fill="'+cols[i]+'"/>'+
+      '<circle class="glow" cx="'+x+'" cy="58" r="16" fill="#ffb347" opacity=".25"/>'+
+      '<path class="flame" d="M'+x+' 44c7 8 8 14 0 22-8-8-7-14 0-22z" fill="#ffb347"/>'+
+      '<path class="smoke" d="M'+x+' 56q-6-8 0-16t0-14"/>';
+    candles.appendChild(g);
+  });
+  var svg=$("cakesvg");
+
+  /* lampion */
+  var lanternSVG='<svg viewBox="0 0 60 84" aria-hidden="true"><path d="M20 4h20l-2 8H22z" fill="#a8541f"/>'+
+    '<path d="M14 14h32c8 14 10 34 4 50H10C4 48 6 28 14 14z" fill="#ffb347"/>'+
+    '<path d="M24 14c-4 16-4 34-2 50M36 14c4 16 4 34 2 50" stroke="#e07a1f" stroke-width="1.5" fill="none"/>'+
+    '<ellipse cx="30" cy="40" rx="9" ry="14" fill="#fff2c4" opacity=".85"/>'+
+    '<path d="M10 64h40l-3 8H13z" fill="#a8541f"/><path d="M30 72v10" stroke="#a8541f" stroke-width="2"/></svg>';
+  var spots=[["17%","5%"],["50%","9%"],["83%","5%"],["33%","30%"],["67%","30%"]];
+  function showLanterns(){
+    var box=$("lanterns"); box.innerHTML="";
+    wishes.forEach(function(w,i){
+      var d=document.createElement("div");
+      d.className="lantern"; d.style.setProperty("--x",spots[i][0]); d.style.setProperty("--y",spots[i][1]);
+      d.style.setProperty("--d",(i*0.25)+"s");
+      var b=document.createElement("button");
+      b.innerHTML=lanternSVG; b.setAttribute("aria-label","Buka harapan "+(i+1));
+      b.addEventListener("click",function(){
+        d.classList.add("seen");
+        openModal(w);
+        burst(b.getBoundingClientRect().left+29,b.getBoundingClientRect().top+30,18);
+      });
+      d.appendChild(b); box.appendChild(d);
+    });
+  }
+
+  /* confetti */
+  var cv=$("fx"), ctx=cv.getContext("2d"), parts=[], raf=0;
+  function fit(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio}
+  fit(); addEventListener("resize",fit);
+  var palette=["#ff7a90","#ffb347","#7a9cff","#5fd1a8","#c88bff","#ffd24a"];
+  function burst(x,y,n){
+    if(reduce)return;
+    for(var i=0;i<n;i++){
+      var a=Math.random()*Math.PI*2, v=3+Math.random()*7;
+      parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-5,r:3+Math.random()*4,c:palette[i%palette.length],rot:Math.random()*6,life:120+Math.random()*60});
+    }
+    if(!raf)raf=requestAnimationFrame(tick);
+  }
+  function tick(){
+    var k=devicePixelRatio; ctx.clearRect(0,0,cv.width,cv.height);
+    parts=parts.filter(function(p){return p.life>0&&p.y<innerHeight+30});
+    parts.forEach(function(p){
+      p.vy+=.22; p.vx*=.99; p.x+=p.vx; p.y+=p.vy; p.rot+=.15; p.life--;
+      ctx.save(); ctx.translate(p.x*k,p.y*k); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.globalAlpha=Math.min(1,p.life/40);
+      ctx.fillRect(-p.r*k,-p.r*k/2,p.r*2*k,p.r*k); ctx.restore();
+    });
+    raf=parts.length?requestAnimationFrame(tick):0;
+    if(!raf)ctx.clearRect(0,0,cv.width,cv.height);
+  }
+
+  /* tiup & nyalakan */
+  function blow(){
+    if(!lit)return; lit=false; stopMic(); $("mic").hidden=true; $("micnote").textContent="";
+    svg.classList.add("out");
+    var r=svg.getBoundingClientRect();
+    burst(r.left+r.width/2,r.top+r.height*.3,90);
+    setTimeout(function(){burst(innerWidth*.2,innerHeight*.3,50);burst(innerWidth*.8,innerHeight*.3,50)},350);
+    $("sub").textContent="Semoga permintaanmu terkabul. Ketuk lampion untuk membaca harapan dari kami.";
+    $("msg").textContent="Ada 5 harapan yang menunggu di langit.";
+    $("blow").textContent="Nyalakan lilin lagi";
+    showLanterns();
+  }
+  function relight(){
+    lit=true; $("mic").hidden=false; svg.classList.remove("out"); $("lanterns").innerHTML="";
+    $("sub").textContent="Buat permintaan dulu dalam hati, lalu tiup lilinnya.";
+    $("msg").textContent="Lilinnya masih menyala…";
+    $("blow").textContent="Tiup lilin";
+  }
+  $("cake").addEventListener("click",blow);
+  $("blow").addEventListener("click",function(){lit?blow():relight()});
+
+  /* pop up harapan */
+  var lastFocus=null;
+  function openModal(t){
+    lastFocus=document.activeElement; $("mtext").textContent=t; $("modal").hidden=false; $("mclose").focus();
+  }
+  function closeModal(){$("modal").hidden=true; if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+  $("mclose").addEventListener("click",closeModal);
+  $("modal").addEventListener("click",function(e){if(e.target===this)closeModal()});
+  addEventListener("keydown",function(e){if(e.key==="Escape"&&!$("modal").hidden)closeModal()});
+
+  /* musik latar: dari file audio lokal */
+  var mus = { want: true, duck: false }; // Diubah jadi true secara default
+  var bgm = $("bgm");
+  
+  // Mengatur volume sedikit naik (0.6 berarti 60% dari volume maksimal file asli)
+  bgm.volume = 0.6;
+
+  function syncMusic(){
+    var should = mus.want && !mus.duck && !document.hidden;
+    if(should && bgm.paused) {
+      bgm.play().catch(function(e) { 
+        // Jika browser menolak pemutaran otomatis, biarkan saja
+      });
+    } else if(!should && !bgm.paused) {
+      bgm.pause();
+    }
+    var b = $("music");
+    b.textContent = mus.want ? "🎵 Musik nyala" : "🔇 Musik mati";
+    b.setAttribute("aria-pressed", mus.want ? "true" : "false");
+  }
+
+  // Tangkap interaksi layar pertama untuk mengizinkan musik jika autoplay diblokir browser
+  var startOnInteract = function() {
+    if(mus.want) bgm.play();
+    syncMusic();
+    document.removeEventListener("click", startOnInteract);
+    document.removeEventListener("touchstart", startOnInteract);
+  };
+  document.addEventListener("click", startOnInteract);
+  document.addEventListener("touchstart", startOnInteract);
+
+  $("music").addEventListener("click",function(){
+    mus.want = !mus.want;
+    syncMusic();
+    if(mus.want && mus.duck) note("Musik dijeda selama mikrofon aktif, lalu menyala lagi setelah lilin padam.");
+  });
+  document.addEventListener("visibilitychange", syncMusic);
+
+  /* tiup lewat mikrofon */
+  var mic={ctx:null,stream:null,raf:0,on:false};
+  function note(t){$("micnote").textContent=t}
+  function stopMic(){
+    mic.on=false; cancelAnimationFrame(mic.raf);
+    if(mic.stream)mic.stream.getTracks().forEach(function(t){t.stop()});
+    if(mic.ctx&&mic.ctx.state!=="closed")mic.ctx.close();
+    mic.stream=null; mic.ctx=null;
+    svg.classList.remove("listening"); svg.style.removeProperty("--p");
+    mus.duck=false; syncMusic();
+    svg.querySelectorAll(".flame").forEach(function(f){f.style.transform=""});
+    $("mic").textContent="🎤 Tiup lewat mikrofon";
+  }
+  async function startMic(){
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+      note("Browser ini belum mendukung mikrofon. Ketuk kuenya saja, ya."); return;
+    }
+    try{
+      mus.duck=true; syncMusic();
+      if(mus.want)await new Promise(function(r){setTimeout(r,400)});
+      var stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+      var AC=window.AudioContext||window.webkitAudioContext, ctx=new AC();
+      var an=ctx.createAnalyser(); an.fftSize=1024;
+      ctx.createMediaStreamSource(stream).connect(an);
+      if(ctx.state==="suspended")await ctx.resume();
+      mic.stream=stream; mic.ctx=ctx; mic.on=true;
+      svg.classList.add("listening"); $("mic").textContent="Hentikan mikrofon";
+      note("Mikrofon aktif"+(mus.want?", musik dijeda sementara":"")+". Dekatkan wajah dan tiup ke arah mikrofon perangkatmu!");
+      var buf=new Uint8Array(an.fftSize), flames=svg.querySelectorAll(".flame"), base=.01, prog=0, lv=0, cal=0, last=performance.now();
+      (function loop(now){
+        if(!mic.on)return;
+        an.getByteTimeDomainData(buf);
+        var s=0; for(var i=0;i<buf.length;i++){var v=(buf[i]-128)/128; s+=v*v}
+        var rms=Math.sqrt(s/buf.length), dt=Math.min(60,now-last); last=now;
+        var calib=cal++<20; if(calib)base+=(rms-base)*.25;
+        var thr=Math.max(.02,base*2.2);
+        if(!calib&&rms>thr){prog+=dt/250}else{prog=Math.max(0,prog-dt/1200); if(!calib)base+=(rms-base)*.03}
+        lv+=(Math.min(1,Math.max(0,(rms-base*1.3)/.04))-lv)*.35;
+        svg.style.setProperty("--p",Math.min(1,Math.max(prog,lv*.6)).toFixed(2));
+        var tm=now/90;
+        flames.forEach(function(f,i){
+          f.style.transform="rotate("+(lv*26+Math.sin(tm+i*1.7)*(3+lv*10))+"deg) scale("+(1-.25*lv)+","+(1+.15*lv*Math.sin(tm*1.3+i))+")";
+        });
+        if(prog>=1){blow(); return}
+        mic.raf=requestAnimationFrame(loop);
+      })(last);
+    }catch(e){
+      stopMic();
+      note(e&&e.name==="NotAllowedError"
+        ?"Izin mikrofon ditolak atau diblokir di halaman ini. Kamu tetap bisa mengetuk kue untuk meniup lilin."
+        :"Mikrofon tidak bisa dipakai di sini. Kamu tetap bisa mengetuk kuenya.");
+    }
+  }
+  $("mic").addEventListener("click",function(){
+    if(mic.on){stopMic(); note("");} else startMic();
+  });
+
+  /* hembusan angin: pita tipis yang mengikuti aliran udara */
+  (function(){
+    if(reduce)return;
+    var cv=$("wind"), c=cv.getContext("2d"), W=0, H=0, dpr=Math.min(window.devicePixelRatio||1,2), rgb="42,24,80";
+    function size(){
+      W=document.body.clientWidth; H=document.body.clientHeight;
+      cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+    }
+    size(); addEventListener("resize",size);
+    if(window.ResizeObserver)new ResizeObserver(size).observe(document.body);
+
+    /* medan aliran: arah angin berubah pelan menurut posisi dan waktu */
+    function flow(x,y,t){
+      return .12+Math.sin(x*.0042+t*.00031)*.5+Math.sin(y*.0061-t*.00043)*.4+Math.sin((x+y)*.0031+t*.00022)*.3;
+    }
+    /* hembusan: kecepatan naik turun, kadang reda kadang kencang */
+    function gust(t){
+      return Math.max(.2,.7+.4*Math.sin(t*.00075)+.3*Math.sin(t*.0019+1.3)+.15*Math.sin(t*.0043));
+    }
+    function make(first){
+      return {x:first?Math.random()*W:Math.random()*W*.7-80, y:Math.random()*H, a:.1, life:first?Math.random():0,
+        span:9000+Math.random()*6000, base:1.3+Math.random()*1.2, curl:.2+Math.random()*.9, ph:Math.random()*6.3,
+        n:70+Math.floor(Math.random()*50), pts:[]};
+    }
+    var ws=[], last=0, tick=0;
+    for(var i=0;i<9;i++)ws.push(make(true));
+
+    function frame(now){
+      var dt=Math.min(40,now-(last||now))/16.67; last=now;
+      if(tick++%90===0){var m=getComputedStyle(cv).color.match(/[\d.]+/g); if(m)rgb=m.slice(0,3).join(",")}
+      c.setTransform(dpr,0,0,dpr,0,0); c.clearRect(0,0,W,H); c.lineCap="round";
+      var g=gust(now);
+      ws.forEach(function(s,k){
+        s.life+=dt*16.67/s.span;
+        var target=flow(s.x,s.y,now)+Math.sin(s.life*14+s.ph)*s.curl*.35;
+        s.a+=(target-s.a)*Math.min(1,.06*dt);
+        var sp=s.base*g*dt;
+        s.x+=Math.cos(s.a)*sp; s.y+=Math.sin(s.a)*sp;
+        s.pts.push(s.x,s.y);
+        while(s.pts.length>s.n*2)s.pts.splice(0,2);
+        var p=s.pts, n=p.length/2;
+        if(n>=4){
+          var env=Math.pow(Math.sin(Math.PI*Math.min(1,s.life)),1.2)*.42;
+          for(var i=1;i<n-1;i++){
+            var w=Math.sin(Math.PI*i/n);
+            c.strokeStyle="rgba("+rgb+","+(env*Math.pow(w,1.3)).toFixed(3)+")";
+            c.lineWidth=.4+1.5*Math.pow(w,.8);
+            c.beginPath();
+            c.moveTo((p[i*2-2]+p[i*2])/2,(p[i*2-1]+p[i*2+1])/2);
+            c.quadraticCurveTo(p[i*2],p[i*2+1],(p[i*2]+p[i*2+2])/2,(p[i*2+1]+p[i*2+3])/2);
+            c.stroke();
+          }
+        }
+        if(s.life>=1||s.x>W+200||s.y<-200||s.y>H+200)ws[k]=make(false);
+      });
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+
+  /* kupu-kupu */
+  var bfs=[], bfCols=["#ff7a90","#ffb347","#7a9cff","#c88bff","#5fd1a8"];
+  (function(){
+    var n=5+Math.floor(Math.random()*8), layer=$("bf");
+    for(var i=0;i<n;i++){
+      var c=bfCols[Math.floor(Math.random()*bfCols.length)], sz=22+Math.random()*18;
+      var el=document.createElement("div"); el.className="bf"; el.style.width=sz+"px";
+      el.innerHTML='<svg viewBox="0 0 40 40"><g class="wl"><path d="M20 20C12 4 2 6 4 16c1 6 8 7 16 4zM20 22C10 22 6 32 12 34c5 1 8-5 8-12z" fill="'+c+'"/></g><g class="wr"><path d="M20 20C28 4 38 6 36 16c-1 6-8 7-16 4zM20 22C30 22 34 32 28 34c-5 1-8-5-8-12z" fill="'+c+'"/></g><rect x="19" y="12" width="2" height="20" rx="1" fill="#3a2a5c"/></svg>';
+      el.firstChild.style.animationDelay=(-Math.random()*0.5)+"s";
+      layer.appendChild(el);
+      bfs.push({el:el,x:Math.random()*layer.clientWidth,y:Math.random()*layer.clientHeight,a:Math.random()*6.28,sp:.5+Math.random()*.9,turn:0,tt:0,ph:Math.random()*6});
+    }
+    function step(t){
+      bfs.forEach(function(b){
+        if(--b.tt<=0){b.turn=(Math.random()-.5)*.07;b.tt=30+Math.random()*70}
+        b.a+=b.turn; b.x+=Math.cos(b.a)*b.sp; b.y+=Math.sin(b.a)*b.sp+Math.sin(t/260+b.ph)*.35;
+        if(b.x<-50)b.x=layer.clientWidth+40; if(b.x>layer.clientWidth+50)b.x=-40;
+        if(b.y<-50)b.y=layer.clientHeight+40; if(b.y>layer.clientHeight+50)b.y=-40;
+        b.el.style.transform="translate("+b.x+"px,"+b.y+"px) rotate("+(b.a*57.3+90)+"deg)";
+      });
+      if(!reduce)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  })();
+})();
+</script>
+</body>
+</html>
