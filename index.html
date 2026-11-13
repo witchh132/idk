@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Selamat Ulang Tahun!</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;1,500&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#fff1e8; --sky1:#ffd6c4; --sky2:#cdb9f2; --ink:#2a1850; --muted:#5b4680;
@@ -29,21 +30,19 @@
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{position:relative;margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;min-height:100vh;overflow-x:hidden}
+body{position:relative;margin:0;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;min-height:100vh;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
-main{max-width:720px;margin:0 auto;padding:28px 18px 48px;text-align:center}
-.namebox{display:inline-flex;gap:10px;align-items:center;font-size:.95rem;color:var(--muted)}
-.namebox input{font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;width:170px;text-align:center}
-.namebox input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+main{max-width:900px;margin:0 auto;padding:56px max(18px,env(safe-area-inset-right)) 48px max(18px,env(safe-area-inset-left));text-align:center}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,8vw,3.6rem);line-height:1.1;margin:8px 0 8px;letter-spacing:-.01em;text-wrap:balance}
 .sub{margin:0 auto;max-width:34ch;color:var(--muted);min-height:3em}
-.stage{position:relative;margin:22px auto 0;height:min(80vh,620px);min-height:470px;border-radius:28px;overflow:hidden;
+.stage{position:relative;margin:22px auto 0;--k:1;height:clamp(470px,74vh,700px);height:clamp(470px,74svh,700px);min-height:470px;border-radius:28px;overflow:hidden;
   background:linear-gradient(180deg,var(--sky1),var(--sky2));border:1.5px solid var(--line)}
 .stars{position:absolute;inset:0;background-image:
   radial-gradient(1.5px 1.5px at 12% 18%,#fff 98%,transparent),radial-gradient(1.5px 1.5px at 78% 12%,#fff 98%,transparent),
   radial-gradient(2px 2px at 40% 30%,#fff 98%,transparent),radial-gradient(1.5px 1.5px at 90% 40%,#fff 98%,transparent),
   radial-gradient(1.5px 1.5px at 22% 52%,#fff 98%,transparent),radial-gradient(2px 2px at 64% 46%,#fff 98%,transparent);opacity:.7}
-.cake{position:absolute;z-index:1;left:50%;bottom:10px;width:min(320px,78%);transform:translateX(-50%);cursor:pointer;background:none;border:0;padding:0}
+.cake{position:absolute;z-index:1;left:50%;bottom:calc(60px * var(--k,1));width:min(86%,clamp(250px,42%,390px));transform:translateX(-50%);pointer-events:none}
 .cake svg{display:block;width:100%;height:auto;overflow:visible}
 .flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick .9s ease-in-out infinite alternate;transition:opacity .35s,transform .35s}
 .flame:nth-of-type(2n){animation-duration:.7s}
@@ -56,12 +55,12 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,8vw,3.6rem);l
 .out .smoke{animation:smoke 2.2s ease-out}
 @keyframes flick{from{transform:scale(1,1) rotate(-3deg)}to{transform:scale(.88,1.1) rotate(3deg)}}
 @keyframes smoke{0%{opacity:.7;transform:translateY(0)}100%{opacity:0;transform:translateY(-34px)}}
-#lanterns{position:absolute;inset:0;z-index:2;pointer-events:none}
+#lanterns{position:absolute;inset:0;z-index:4;pointer-events:none}
 .lantern{pointer-events:auto;position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,0);animation:rise 2.6s cubic-bezier(.2,.7,.2,1) var(--d) both}
-.lantern button{display:block;width:58px;border:0;background:none;padding:0;cursor:pointer;animation:bob 4s ease-in-out var(--d) infinite alternate}
-.lantern svg{width:100%;height:auto;display:block;filter:drop-shadow(0 0 14px rgba(255,179,71,.85));transition:filter .3s,opacity .3s}
-.lantern.seen svg{opacity:.55;filter:drop-shadow(0 0 4px rgba(255,179,71,.4))}
-.lantern button:hover svg{filter:drop-shadow(0 0 22px rgba(255,200,100,1))}
+.lantern button{display:block;width:clamp(50px,6.5vw,64px);touch-action:manipulation;border:0;background:none;padding:0;cursor:pointer;animation:bob 4s ease-in-out var(--d) infinite alternate}
+.lantern svg{width:100%;height:auto;display:block;overflow:visible;transition:opacity .3s,transform .3s}
+.lantern.seen svg{opacity:.55}
+.lantern button:hover svg{transform:scale(1.08)}
 @keyframes rise{from{opacity:0;transform:translate(-50%,420px)}20%{opacity:1}to{opacity:1;transform:translate(-50%,0)}}
 @keyframes bob{from{transform:translateY(-7px) rotate(-3deg)}to{transform:translateY(9px) rotate(3deg)}}
 .msg{margin:18px auto 0;max-width:460px;min-height:92px;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:18px 22px;
@@ -81,15 +80,11 @@ h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,8vw,3.6rem);l
 canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
 #bf{position:absolute;inset:0;pointer-events:none;z-index:3;overflow:hidden}
 #wind{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;color:var(--ink)}
-.wd{position:absolute;left:0;top:0;opacity:0;will-change:transform}
-.wd svg{display:block;width:100%;height:auto;overflow:visible}
-.wd path{fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round}
 .bf{position:absolute;left:0;top:0;will-change:transform;opacity:.9}
 .bf svg{display:block;width:100%;height:auto;overflow:visible}
-.wl,.wr{transform-box:fill-box;animation:flap .22s ease-in-out infinite alternate}
-.wl{transform-origin:100% 50%}.wr{transform-origin:0% 50%}
-@keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.2)}}
-@media (prefers-reduced-motion:reduce){.wl,.wr{animation:none!important}}
+.bf svg{animation:flap .24s ease-in-out infinite alternate}
+@keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.3)}}
+@media (prefers-reduced-motion:reduce){.bf svg{animation:none!important}}
 .modal{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(20,13,46,.55);backdrop-filter:blur(4px);animation:fade .25s ease-out}
 .modal[hidden]{display:none}
 .mcard{max-width:400px;width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:24px;padding:30px 26px 26px;text-align:center;box-shadow:0 0 60px rgba(255,179,71,.35);animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
@@ -99,13 +94,45 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
 @media (prefers-reduced-motion:reduce){
   .flame,.lantern button,.lantern{animation:none!important}.out .smoke{animation:none}
 }
+/* hamparan bunga blue moon (nemophila): animasi CSS, jalan di compositor */
+.meadow{position:absolute;left:0;right:0;bottom:0;height:150px;z-index:2;pointer-events:none;overflow:hidden}
+.meadow .bed{position:absolute;left:0;bottom:0;display:block}
+.meadow .pl,.meadow .fg{position:absolute;display:block;overflow:visible;transform-origin:50% 100%;animation:sway var(--t) ease-in-out var(--d) infinite alternate}
+@keyframes sway{0%{transform:rotate(var(--a1))}33%{transform:rotate(var(--a2))}66%{transform:rotate(var(--a3))}100%{transform:rotate(var(--a4))}}
+@media (prefers-reduced-motion:reduce){.meadow .pl,.meadow .fg{animation:none!important}}
+.btn,.musicbtn{touch-action:manipulation}
+@media (max-width:380px){.msg{font-size:1.08rem;padding:16px}.btn{padding:12px 22px}}
+@media (max-height:520px) and (orientation:landscape){.stage{height:84vh;min-height:360px}main{padding-top:48px}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <radialGradient id="nmG" cx="0" cy="0" r="19" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#fff"/><stop offset=".28" stop-color="#eaf4ff"/><stop offset=".72" stop-color="#a6d0f8"/><stop offset="1" stop-color="#6eaaf0"/>
+  </radialGradient>
+  <linearGradient id="lfG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc36a"/><stop offset="1" stop-color="#2f7d3c"/></linearGradient>
+  <radialGradient id="lgG"><stop offset="0" stop-color="#ffb347" stop-opacity=".6"/><stop offset=".6" stop-color="#ffb347" stop-opacity=".18"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+  <path id="lfS" d="M0 0C-7-6-7-17 0-23C7-17 7-6 0 0Z" fill="url(#lfG)"/>
+  <symbol id="tfS" viewBox="0 0 40 24" overflow="visible"><path d="M4 24C5 14 3 8 1 3C8 8 11 16 12 24Z" fill="url(#lfG)"/><path d="M10 24C10 12 12 6 14 0C17 8 17 16 18 24Z" fill="#5fae52"/><path d="M16 24C18 14 24 8 29 5C26 12 24 18 24 24Z" fill="url(#lfG)"/><path d="M22 24C24 16 30 10 38 8C33 14 31 19 30 24Z" fill="#4aa04b"/><path d="M27 24C28 18 31 14 36 12C34 17 34 20 34 24Z" fill="url(#lfG)"/></symbol>
+  <symbol id="nemo" viewBox="-20 -20 40 40" overflow="visible">
+    <g fill="url(#nmG)" stroke="#5b9be6" stroke-width=".5" stroke-opacity=".6">
+      <path id="nmP" d="M0 0C-10-5-11-17-3-18.5Q0-19.5 3-18.5C11-17 10-5 0 0Z"/>
+      <use href="#nmP" transform="rotate(72)"/><use href="#nmP" transform="rotate(144)"/>
+      <use href="#nmP" transform="rotate(216)"/><use href="#nmP" transform="rotate(288)"/>
+    </g>
+    <g stroke="#4f8fe0" stroke-width=".45" opacity=".4" fill="none" stroke-linecap="round">
+      <path id="nmV" d="M0-5V-15M-2.5-6L-5-13M2.5-6L5-13"/>
+      <use href="#nmV" transform="rotate(72)"/><use href="#nmV" transform="rotate(144)"/>
+      <use href="#nmV" transform="rotate(216)"/><use href="#nmV" transform="rotate(288)"/>
+    </g>
+    <circle r="3.8" fill="#fff"/>
+    <g fill="#3f5fc8"><circle cx="0" cy="-2.2" r=".8"/><circle cx="2.1" cy="-.7" r=".8"/><circle cx="1.3" cy="1.8" r=".8"/><circle cx="-1.3" cy="1.8" r=".8"/><circle cx="-2.1" cy="-.7" r=".8"/></g>
+  </symbol>
+</defs></svg>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="musicbar">
   <!-- Atribut autoplay ditambahkan di sini -->
-  <audio id="bgm" src="bg.mp3" loop preload="auto" autoplay></audio>
+  <audio id="bgm" src="bg.mp3" loop preload="metadata" autoplay></audio>
   <button class="musicbtn" id="music" aria-pressed="true">🎵 Musik nyala</button>
 </div>
 <canvas id="wind" aria-hidden="true"></canvas>
@@ -120,17 +147,30 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
   <section class="stage" id="stage" aria-label="Kue ulang tahun">
     <div class="stars"></div>
     <div id="lanterns"></div>
-    <button class="cake" id="cake" aria-label="Tiup lilin">
+    <div class="meadow" id="meadow" aria-hidden="true"></div>
+    <div class="cake" id="cake" role="img" aria-label="Kue ulang tahun dengan lima lilin">
       <svg viewBox="0 0 300 250" id="cakesvg">
-        <ellipse cx="150" cy="232" rx="140" ry="14" fill="var(--plate)"/>
-        <rect x="42" y="150" width="216" height="76" rx="16" fill="var(--cake1)"/>
-        <path d="M42 166q0-16 16-16h184q16 0 16 16v8q-11 0-11 11t-12 11-12-11-12 11-12-11-12 11-12-11-12 11-12-11-12 11-12-11-12 11-12-11-12 11-12-11-12 11-12-11-12 11q-11 0-11-11z" fill="var(--cake2)"/>
-        <rect x="76" y="100" width="148" height="56" rx="14" fill="var(--cake2)"/>
-        <path d="M76 114q0-14 14-14h120q14 0 14 14v6q-9 0-9 9t-10 9-10-9-10 9-10-9-10 9-10-9-10 9-10-9-10 9-10-9-10 9q-9 0-9-9z" fill="var(--cake1)"/>
-        <circle cx="100" cy="196" r="6" fill="#fff" opacity=".8"/><circle cx="150" cy="204" r="6" fill="#fff" opacity=".8"/><circle cx="200" cy="196" r="6" fill="#fff" opacity=".8"/>
+        <defs><linearGradient id="shade" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/><stop offset=".75" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".12"/></linearGradient><path id="frB" d="M38 166Q38 152 52 152H248Q262 152 262 166V170a14 14 0 0 1-28 0a14 14 0 0 1-28 0a14 14 0 0 1-28 0a14 14 0 0 1-28 0a14 14 0 0 1-28 0a14 14 0 0 1-28 0a14 14 0 0 1-28 0a14 14 0 0 1-28 0Z"/><path id="frT" d="M72 112Q72 100 84 100H216Q228 100 228 112V116a13 13 0 0 1-26 0a13 13 0 0 1-26 0a13 13 0 0 1-26 0a13 13 0 0 1-26 0a13 13 0 0 1-26 0a13 13 0 0 1-26 0Z"/></defs>
+        <ellipse cx="150" cy="233" rx="146" ry="14" fill="var(--plate)"/>
+        <ellipse cx="150" cy="229" rx="128" ry="10" fill="#fff" opacity=".35"/>
+        <rect x="38" y="152" width="224" height="74" rx="14" fill="var(--cake1)"/>
+        <rect x="38" y="152" width="224" height="74" rx="14" fill="url(#shade)"/>
+        <use href="#frB" fill="var(--cake2)"/><use href="#frB" fill="url(#shade)"/>
+        <rect x="38" y="198" width="224" height="9" fill="var(--wax)"/>
+        <rect x="38" y="198" width="224" height="2.5" fill="#fff" opacity=".25"/>
+        <g fill="#fff" opacity=".88"><circle cx="52" cy="217" r="3.2"/><circle cx="66" cy="217" r="3.2"/><circle cx="80" cy="217" r="3.2"/><circle cx="94" cy="217" r="3.2"/><circle cx="108" cy="217" r="3.2"/><circle cx="122" cy="217" r="3.2"/><circle cx="136" cy="217" r="3.2"/><circle cx="150" cy="217" r="3.2"/><circle cx="164" cy="217" r="3.2"/><circle cx="178" cy="217" r="3.2"/><circle cx="192" cy="217" r="3.2"/><circle cx="206" cy="217" r="3.2"/><circle cx="220" cy="217" r="3.2"/><circle cx="234" cy="217" r="3.2"/><circle cx="248" cy="217" r="3.2"/></g>
+        <path d="M150 202C136 188 120 190 123 202C125 213 140 211 150 202Z" fill="var(--wax)" stroke="#fff" stroke-opacity=".35" stroke-width="1"/>
+        <path d="M150 202C164 188 180 190 177 202C175 213 160 211 150 202Z" fill="var(--wax)" stroke="#fff" stroke-opacity=".35" stroke-width="1"/>
+        <circle cx="150" cy="202" r="5.5" fill="var(--wax)" stroke="#fff" stroke-opacity=".5" stroke-width="1.2"/>
+        <ellipse cx="150" cy="158" rx="84" ry="5" fill="#000" opacity=".1"/>
+        <rect x="72" y="100" width="156" height="56" rx="12" fill="var(--cake2)"/>
+        <rect x="72" y="100" width="156" height="56" rx="12" fill="url(#shade)"/>
+        <use href="#frT" fill="var(--cake1)"/><use href="#frT" fill="url(#shade)"/>
+        <g fill="var(--cake1)"><circle cx="85" cy="146" r="2.8"/><circle cx="98" cy="146" r="2.8"/><circle cx="111" cy="146" r="2.8"/><circle cx="124" cy="146" r="2.8"/><circle cx="137" cy="146" r="2.8"/><circle cx="150" cy="146" r="2.8"/><circle cx="163" cy="146" r="2.8"/><circle cx="176" cy="146" r="2.8"/><circle cx="189" cy="146" r="2.8"/><circle cx="202" cy="146" r="2.8"/><circle cx="215" cy="146" r="2.8"/></g>
+        <path d="M0 0C-7-6-7-17 0-23C7-17 7-6 0 0Z" fill="#4f9d4f" transform="translate(74 106) rotate(-60) scale(0.55)"/><path d="M0 0C-7-6-7-17 0-23C7-17 7-6 0 0Z" fill="#3f8f45" transform="translate(74 106) rotate(10) scale(0.49)"/><use href="#nemo" x="63.0" y="95.0" width="22" height="22" transform="rotate(15 74 106)"/><path d="M0 0C-7-6-7-17 0-23C7-17 7-6 0 0Z" fill="#4f9d4f" transform="translate(226 106) rotate(60) scale(0.55)"/><path d="M0 0C-7-6-7-17 0-23C7-17 7-6 0 0Z" fill="#3f8f45" transform="translate(226 106) rotate(-10) scale(0.49)"/><use href="#nemo" x="215.0" y="95.0" width="22" height="22" transform="rotate(15 226 106)"/><path d="M0 0C-7-6-7-17 0-23C7-17 7-6 0 0Z" fill="#4f9d4f" transform="translate(46 160) rotate(-60) scale(0.65)"/><path d="M0 0C-7-6-7-17 0-23C7-17 7-6 0 0Z" fill="#3f8f45" transform="translate(46 160) rotate(10) scale(0.58)"/><use href="#nemo" x="33.0" y="147.0" width="26" height="26" transform="rotate(15 46 160)"/><path d="M0 0C-7-6-7-17 0-23C7-17 7-6 0 0Z" fill="#4f9d4f" transform="translate(254 160) rotate(60) scale(0.65)"/><path d="M0 0C-7-6-7-17 0-23C7-17 7-6 0 0Z" fill="#3f8f45" transform="translate(254 160) rotate(-10) scale(0.58)"/><use href="#nemo" x="241.0" y="147.0" width="26" height="26" transform="rotate(15 254 160)"/>
         <g id="candles"></g>
       </svg>
-    </button>
+    </div>
   </section>
 
   <div class="msg" id="msg" aria-live="polite">Lilinnya masih menyala…</div>
@@ -160,7 +200,9 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
   var candles=$("candles"), xs=[98,124,150,176,202], cols=["#ff7a90","#7a9cff","#ffd24a","#5fd1a8","#c88bff"];
   xs.forEach(function(x,i){
     var g=document.createElementNS(NS,"g");
-    g.innerHTML='<rect x="'+(x-4)+'" y="70" width="8" height="32" rx="3" fill="'+cols[i]+'"/>'+
+    g.innerHTML='<rect x="'+(x-4)+'" y="70" width="8" height="31" rx="3" fill="'+cols[i]+'"/>'+
+      '<path d="M'+(x-4)+' 82l8-4M'+(x-4)+' 91l8-4" stroke="#fff" stroke-opacity=".6" stroke-width="2.2"/>'+
+      '<path d="M'+x+' 70v-4" stroke="#5a3b2a" stroke-width="1.6" stroke-linecap="round"/>'+
       '<circle class="glow" cx="'+x+'" cy="58" r="16" fill="#ffb347" opacity=".25"/>'+
       '<path class="flame" d="M'+x+' 44c7 8 8 14 0 22-8-8-7-14 0-22z" fill="#ffb347"/>'+
       '<path class="smoke" d="M'+x+' 56q-6-8 0-16t0-14"/>';
@@ -169,7 +211,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
   var svg=$("cakesvg");
 
   /* lampion */
-  var lanternSVG='<svg viewBox="0 0 60 84" aria-hidden="true"><path d="M20 4h20l-2 8H22z" fill="#a8541f"/>'+
+  var lanternSVG='<svg viewBox="0 0 60 84" aria-hidden="true"><circle cx="30" cy="40" r="42" fill="url(#lgG)"/><path d="M20 4h20l-2 8H22z" fill="#a8541f"/>'+
     '<path d="M14 14h32c8 14 10 34 4 50H10C4 48 6 28 14 14z" fill="#ffb347"/>'+
     '<path d="M24 14c-4 16-4 34-2 50M36 14c4 16 4 34 2 50" stroke="#e07a1f" stroke-width="1.5" fill="none"/>'+
     '<ellipse cx="30" cy="40" rx="9" ry="14" fill="#fff2c4" opacity=".85"/>'+
@@ -194,11 +236,13 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
 
   /* confetti */
   var cv=$("fx"), ctx=cv.getContext("2d"), parts=[], raf=0;
-  function fit(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio}
+  var DPR=Math.min(window.devicePixelRatio||1,2);
+  function fit(){cv.width=innerWidth*DPR;cv.height=innerHeight*DPR}
   fit(); addEventListener("resize",fit);
   var palette=["#ff7a90","#ffb347","#7a9cff","#5fd1a8","#c88bff","#ffd24a"];
   function burst(x,y,n){
     if(reduce)return;
+    if(innerWidth<600)n=Math.round(n*.6);
     for(var i=0;i<n;i++){
       var a=Math.random()*Math.PI*2, v=3+Math.random()*7;
       parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-5,r:3+Math.random()*4,c:palette[i%palette.length],rot:Math.random()*6,life:120+Math.random()*60});
@@ -206,7 +250,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
     if(!raf)raf=requestAnimationFrame(tick);
   }
   function tick(){
-    var k=devicePixelRatio; ctx.clearRect(0,0,cv.width,cv.height);
+    var k=DPR; ctx.clearRect(0,0,cv.width,cv.height);
     parts=parts.filter(function(p){return p.life>0&&p.y<innerHeight+30});
     parts.forEach(function(p){
       p.vy+=.22; p.vx*=.99; p.x+=p.vx; p.y+=p.vy; p.rot+=.15; p.life--;
@@ -235,7 +279,6 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
     $("msg").textContent="Lilinnya masih menyala…";
     $("blow").textContent="Tiup lilin";
   }
-  $("cake").addEventListener("click",blow);
   $("blow").addEventListener("click",function(){lit?blow():relight()});
 
   /* pop up harapan */
@@ -301,7 +344,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
   }
   async function startMic(){
     if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-      note("Browser ini belum mendukung mikrofon. Ketuk kuenya saja, ya."); return;
+      note("Browser ini belum mendukung mikrofon. Gunakan tombol Tiup lilin saja, ya."); return;
     }
     try{
       mus.duck=true; syncMusic();
@@ -335,13 +378,47 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
     }catch(e){
       stopMic();
       note(e&&e.name==="NotAllowedError"
-        ?"Izin mikrofon ditolak atau diblokir di halaman ini. Kamu tetap bisa mengetuk kue untuk meniup lilin."
-        :"Mikrofon tidak bisa dipakai di sini. Kamu tetap bisa mengetuk kuenya.");
+        ?"Izin mikrofon ditolak atau diblokir di halaman ini. Kamu tetap bisa menekan tombol Tiup lilin."
+        :"Mikrofon tidak bisa dipakai di sini. Kamu tetap bisa menekan tombol Tiup lilin.");
     }
   }
   $("mic").addEventListener("click",function(){
     if(mic.on){stopMic(); note("");} else startMic();
   });
+
+  /* ---------- hamparan bunga: tiap bunga punya gerak sendiri lewat animasi CSS (tanpa JS per frame) ---------- */
+  function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  var stg=$("stage"), mEl=$("meadow"), lastMW=0;
+  function meadow(el){
+    var W=el.clientWidth||600, k=Math.min(1.3,Math.max(1,W/560)), H=Math.round(150*k), rnd=rng(23), out='', x, r;
+    lastMW=W; el.style.height=H+'px'; stg.style.setProperty('--k',k.toFixed(2));
+    function lift(px){var u=Math.min(1,Math.abs(2*px/W-1));return k*(22+Math.pow(u,1.8)*50)}
+    function ang(A){return ((rnd()-.5)*2*A).toFixed(1)+'deg'}
+    var gp='M0 '+H; for(x=0;x<=W+12;x+=12)gp+='L'+x+' '+(H-(48*k+lift(x))).toFixed(1); gp+='L'+(W+12)+' '+H+'Z';
+    out+='<svg class="bed" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" aria-hidden="true"><defs><linearGradient id="gdG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#58a05a"/><stop offset="1" stop-color="#2a6e35"/></linearGradient></defs><path d="'+gp+'" fill="url(#gdG)"/></svg>';
+    for(r=-1;r<10;r++){
+      var s=Math.max(14,Math.min(34,18+r*4))*k;
+      for(x=-s+rnd()*s; x<W+s; x+=s*(.85+rnd()*1.25)){      /* jarak acak */
+        if(rnd()<.1)continue;
+        var b=k*(8+(4-r)*10)+lift(x)+(rnd()-.5)*8*k;
+        if(b<-2)continue;
+        var sz=s*(.8+rnd()*.5), sl=sz*.55, Ht=sl+sz, cx=sz/2, w=Math.max(1.6,sz*.07), tw=sz*1.3, th=tw*.6;
+        var T=2.8+rnd()*2.8, d=-((x/W)*.5+rnd()*.5)*T, A=5+rnd()*7, bend=(rnd()-.5)*sz*.25;
+        var lr=(rnd()<.5?-1:1)*(40+rnd()*18), ly=Ht-sl*(.3+rnd()*.3), fl=rnd()<.5?' transform="matrix(-1 0 0 1 '+(2*cx).toFixed(1)+' 0)"':'';
+        out+='<svg class="pl" viewBox="0 0 '+sz.toFixed(1)+' '+Ht.toFixed(1)+'" aria-hidden="true" style="left:'+(x-cx).toFixed(1)+'px;bottom:'+(b-sl).toFixed(1)+'px;width:'+sz.toFixed(1)+'px;height:'+Ht.toFixed(1)+'px;--t:'+T.toFixed(1)+'s;--d:'+d.toFixed(1)+'s;--a1:'+ang(A)+';--a2:'+ang(A)+';--a3:'+ang(A)+';--a4:'+ang(A)+'">'+
+          '<path d="M'+cx.toFixed(1)+' '+Ht.toFixed(1)+'Q'+(cx+bend).toFixed(1)+' '+(Ht*.6).toFixed(1)+' '+cx.toFixed(1)+' '+cx.toFixed(1)+'" fill="none" stroke="#4f9d4f" stroke-width="'+w.toFixed(2)+'" stroke-linecap="round"/>'+
+          '<use href="#lfS" transform="translate('+cx.toFixed(1)+' '+ly.toFixed(1)+') rotate('+lr.toFixed(0)+') scale('+(sz*.55/23).toFixed(3)+')"/>'+
+          '<use href="#nemo" width="'+sz.toFixed(1)+'" height="'+sz.toFixed(1)+'" x="0" y="0" transform="rotate('+(rnd()*72).toFixed(0)+' '+cx.toFixed(1)+' '+cx.toFixed(1)+')"/>'+
+          '<use href="#tfS" x="'+(cx-tw/2).toFixed(1)+'" y="'+(Ht-th+2).toFixed(1)+'" width="'+tw.toFixed(1)+'" height="'+th.toFixed(1)+'"'+fl+'/></svg>';
+      }
+    }
+    for(x=-10; x<W+20; x+=13+rnd()*7){                       /* rumput terdepan */
+      var gw=22+rnd()*10, T2=2.6+rnd()*2.4;
+      out+='<svg class="fg" viewBox="0 0 40 24" aria-hidden="true" style="left:'+(x-gw/2).toFixed(1)+'px;bottom:-3px;width:'+gw.toFixed(1)+'px;height:'+(gw*.6).toFixed(1)+'px;--t:'+T2.toFixed(1)+'s;--d:'+(-rnd()*T2).toFixed(1)+'s;--a1:'+ang(5)+';--a2:'+ang(5)+';--a3:'+ang(5)+';--a4:'+ang(5)+'"><use href="#tfS" width="40" height="24"/></svg>';
+    }
+    el.innerHTML=out;
+  }
+  meadow(mEl);
 
   /* hembusan angin: pita tipis yang mengikuti aliran udara */
   (function(){
@@ -403,30 +480,46 @@ canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index
     requestAnimationFrame(frame);
   })();
 
-  /* kupu-kupu */
-  var bfs=[], bfCols=["#ff7a90","#ffb347","#7a9cff","#c88bff","#5fd1a8"];
+  /* ---------- kupu-kupu (ukuran layer disimpan, tanpa baca layout tiap frame) ---------- */
+  var bfs=[], bfCols=["#ff7a90","#ffb347","#7a9cff","#c88bff","#5fd1a8","#6fb4ff"], bfLayer=$("bf"), BW=0, BH=0;
+  function sizeBf(){BW=bfLayer.clientWidth; BH=bfLayer.clientHeight}
+  sizeBf();
   (function(){
-    var n=5+Math.floor(Math.random()*8), layer=$("bf");
+    var small=innerWidth<600, n=(small?3:5)+Math.floor(Math.random()*(small?3:5));
     for(var i=0;i<n;i++){
       var c=bfCols[Math.floor(Math.random()*bfCols.length)], sz=22+Math.random()*18;
       var el=document.createElement("div"); el.className="bf"; el.style.width=sz+"px";
-      el.innerHTML='<svg viewBox="0 0 40 40"><g class="wl"><path d="M20 20C12 4 2 6 4 16c1 6 8 7 16 4zM20 22C10 22 6 32 12 34c5 1 8-5 8-12z" fill="'+c+'"/></g><g class="wr"><path d="M20 20C28 4 38 6 36 16c-1 6-8 7-16 4zM20 22C30 22 34 32 28 34c-5 1-8-5-8-12z" fill="'+c+'"/></g><rect x="19" y="12" width="2" height="20" rx="1" fill="#3a2a5c"/></svg>';
+      el.innerHTML='<svg viewBox="0 0 40 40"><path d="M20 20C12 4 2 6 4 16c1 6 8 7 16 4zM20 22C10 22 6 32 12 34c5 1 8-5 8-12z" fill="'+c+'"/><path d="M20 20C28 4 38 6 36 16c-1 6-8 7-16 4zM20 22C30 22 34 32 28 34c-5 1-8-5-8-12z" fill="'+c+'"/><rect x="19" y="12" width="2" height="20" rx="1" fill="#3a2a5c"/></svg>';
       el.firstChild.style.animationDelay=(-Math.random()*0.5)+"s";
-      layer.appendChild(el);
-      bfs.push({el:el,x:Math.random()*layer.clientWidth,y:Math.random()*layer.clientHeight,a:Math.random()*6.28,sp:.5+Math.random()*.9,turn:0,tt:0,ph:Math.random()*6});
+      bfLayer.appendChild(el);
+      bfs.push({el:el,x:Math.random()*BW,y:Math.random()*BH,a:Math.random()*6.28,sp:.5+Math.random()*.9,turn:0,tt:0,ph:Math.random()*6});
     }
-    function step(t){
-      bfs.forEach(function(b){
-        if(--b.tt<=0){b.turn=(Math.random()-.5)*.07;b.tt=30+Math.random()*70}
-        b.a+=b.turn; b.x+=Math.cos(b.a)*b.sp; b.y+=Math.sin(b.a)*b.sp+Math.sin(t/260+b.ph)*.35;
-        if(b.x<-50)b.x=layer.clientWidth+40; if(b.x>layer.clientWidth+50)b.x=-40;
-        if(b.y<-50)b.y=layer.clientHeight+40; if(b.y>layer.clientHeight+50)b.y=-40;
-        b.el.style.transform="translate("+b.x+"px,"+b.y+"px) rotate("+(b.a*57.3+90)+"deg)";
-      });
-      if(!reduce)requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
   })();
+  function stepBf(t){
+    for(var i=0;i<bfs.length;i++){
+      var b=bfs[i];
+      if(--b.tt<=0){b.turn=(Math.random()-.5)*.07;b.tt=30+Math.random()*70}
+      b.a+=b.turn; b.x+=Math.cos(b.a)*b.sp; b.y+=Math.sin(b.a)*b.sp+Math.sin(t/260+b.ph)*.35;
+      if(b.x<-50)b.x=BW+40; if(b.x>BW+50)b.x=-40;
+      if(b.y<-50)b.y=BH+40; if(b.y>BH+50)b.y=-40;
+      b.el.style.transform="translate("+b.x.toFixed(1)+"px,"+b.y.toFixed(1)+"px) rotate("+(b.a*57.3+90).toFixed(0)+"deg)";
+    }
+  }
+
+  /* ---------- satu loop untuk angin + kupu-kupu ---------- */
+  function frame(t){
+    stepBf(t);
+    requestAnimationFrame(frame);
+  }
+  if(reduce)stepBf(0); else requestAnimationFrame(frame);
+
+  var rz; addEventListener("resize",function(){
+    clearTimeout(rz);
+    rz=setTimeout(function(){
+      sizeBf();
+      if(Math.abs(mEl.clientWidth-lastMW)>24)meadow(mEl);
+    },200);
+  });
 })();
 </script>
 </body>
